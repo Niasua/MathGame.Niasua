@@ -6,6 +6,7 @@ internal class GameEngine
     internal void DivisionGame(string message, DifficultyLevel difficulty)
     {
         var score = 0;
+        var startTime = DateTime.Now;
 
         int numberQuestions = difficulty switch
         {
@@ -42,7 +43,10 @@ internal class GameEngine
 
             if (i == numberQuestions - 1)
             {
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
                 Console.WriteLine($"Game over. Your final score is {score}");
+                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
                 Console.ReadLine();
             }
         }
@@ -53,6 +57,7 @@ internal class GameEngine
     {
         Random random = new Random();
         var score = 0;
+        var startTime = DateTime.Now;
 
         int maxNumber = difficulty switch
         {
@@ -88,7 +93,10 @@ internal class GameEngine
 
             if (i == 4)
             {
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
                 Console.WriteLine($"Game over. Your final score is {score}");
+                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
                 Console.ReadLine();
             }
         }
@@ -99,6 +107,7 @@ internal class GameEngine
     {
         Random random = new Random();
         var score = 0;
+        var startTime = DateTime.Now;
 
         int maxNumber = difficulty switch
         {
@@ -134,7 +143,10 @@ internal class GameEngine
 
             if (i == 4)
             {
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
                 Console.WriteLine($"Game over. Your final score is {score}");
+                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
                 Console.ReadLine();
             }
         }
@@ -145,6 +157,7 @@ internal class GameEngine
     {
         Random random = new Random();
         var score = 0;
+        var startTime = DateTime.Now;
 
         int maxNumber = difficulty switch
         {
@@ -181,7 +194,10 @@ internal class GameEngine
 
             if (i == 4)
             {
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
                 Console.WriteLine($"Game over. Your final score is {score}");
+                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
                 Console.ReadLine();
             }
         }
