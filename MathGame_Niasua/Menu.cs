@@ -35,16 +35,16 @@ internal class Menu
                     Helpers.PrintGames();
                     break;
                 case "a":
-                    gameEngine.AdditionGame("Addition game selected");
+                    gameEngine.AdditionGame("Addition game selected", Helpers.selectDifficulty());
                     break;
                 case "s":
-                    gameEngine.SubtractionGame("Subtraction game selected");
+                    gameEngine.SubtractionGame("Subtraction game selected", Helpers.selectDifficulty());
                     break;
                 case "m":
-                    gameEngine.MultiplicationGame("Multiplication game selected");
+                    gameEngine.MultiplicationGame("Multiplication game selected", Helpers.selectDifficulty());
                     break;
                 case "d":
-                    gameEngine.DivisionGame("Division game selected");
+                    gameEngine.DivisionGame("Division game selected", Helpers.selectDifficulty());
                     break;
                 case "q":
                     Console.WriteLine("Goodbye");
@@ -54,6 +54,7 @@ internal class Menu
                     Console.WriteLine("Invalid input");
                     break;
             }
+
         } while (isGameOn);
     }
 

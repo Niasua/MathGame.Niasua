@@ -1,5 +1,6 @@
 ﻿using MathGame_Niasua.Models;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MathGame_Niasua;
 internal class Helpers
@@ -87,6 +88,31 @@ internal class Helpers
             result = Console.ReadLine();
         }
         return result;
+    }
+
+    internal static DifficultyLevel selectDifficulty()
+    {
+        Console.Clear();
+        Console.WriteLine("Select difficulty:");
+        Console.WriteLine("1. Easy");
+        Console.WriteLine("2. Medium");
+        Console.WriteLine("3. Hard");
+
+        string input = Console.ReadLine();
+        int selection;
+
+        while(!int.TryParse(input, out selection) || selection < 1 || selection > 3)
+        {
+            Console.WriteLine("Invalid input. Please select 1, 2 or 3:");
+            input = Console.ReadLine();
+        }
+
+        return selection switch
+        {
+            1 => DifficultyLevel.Easy,
+            2 => DifficultyLevel.Medium,
+            3 => DifficultyLevel.Hard
+        };
     }
 }
 

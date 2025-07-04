@@ -3,11 +3,18 @@
 namespace MathGame_Niasua;
 internal class GameEngine
 {
-    internal void DivisionGame(string message)
+    internal void DivisionGame(string message, DifficultyLevel difficulty)
     {
         var score = 0;
 
-        for (int i = 0; i < 5; i++)
+        int numberQuestions = difficulty switch
+        {
+            DifficultyLevel.Easy => 5,
+            DifficultyLevel.Medium => 10,
+            DifficultyLevel.Hard => 15
+        };
+
+        for (int i = 0; i < numberQuestions; i++)
         {
             Console.Clear();
             Console.WriteLine(message);
@@ -33,7 +40,7 @@ internal class GameEngine
                 Console.ReadLine();
             }
 
-            if (i == 4)
+            if (i == numberQuestions - 1)
             {
                 Console.WriteLine($"Game over. Your final score is {score}");
                 Console.ReadLine();
@@ -42,17 +49,25 @@ internal class GameEngine
 
         Helpers.AddToHistory(score, GameType.Division);
     }
-    internal void MultiplicationGame(string message)
+    internal void MultiplicationGame(string message, DifficultyLevel difficulty)
     {
         Random random = new Random();
         var score = 0;
+
+        int maxNumber = difficulty switch
+        {
+            DifficultyLevel.Easy => 9,
+            DifficultyLevel.Medium => 50,
+            DifficultyLevel.Hard => 100,
+            _ => 9
+        };
 
         for (int i = 0; i < 5; i++)
         {
             Console.Clear();
             Console.WriteLine(message);
-            int firstNumber = random.Next(1, 9);
-            int secondNumber = random.Next(1, 9);
+            int firstNumber = random.Next(1, maxNumber + 1);
+            int secondNumber = random.Next(1, maxNumber + 1);
 
             Console.WriteLine($"{firstNumber} * {secondNumber}");
             var result = Console.ReadLine();
@@ -80,17 +95,25 @@ internal class GameEngine
 
         Helpers.AddToHistory(score, GameType.Multiplication);
     }
-    internal void SubtractionGame(string message)
+    internal void SubtractionGame(string message, DifficultyLevel difficulty)
     {
         Random random = new Random();
         var score = 0;
+
+        int maxNumber = difficulty switch
+        {
+            DifficultyLevel.Easy => 9,
+            DifficultyLevel.Medium => 50,
+            DifficultyLevel.Hard => 100,
+            _ => 9
+        };
 
         for (int i = 0; i < 5; i++)
         {
             Console.Clear();
             Console.WriteLine(message);
-            int firstNumber = random.Next(1, 9);
-            int secondNumber = random.Next(1, 9);
+            int firstNumber = random.Next(1, maxNumber + 1);
+            int secondNumber = random.Next(1, maxNumber + 1);
 
             Console.WriteLine($"{firstNumber} - {secondNumber}");
             var result = Console.ReadLine();
@@ -118,17 +141,25 @@ internal class GameEngine
 
         Helpers.AddToHistory(score, GameType.Subtraction);
     }
-    internal void AdditionGame(string message)
+    internal void AdditionGame(string message, DifficultyLevel difficulty)
     {
         Random random = new Random();
         var score = 0;
+
+        int maxNumber = difficulty switch
+        {
+            DifficultyLevel.Easy => 9,
+            DifficultyLevel.Medium => 50,
+            DifficultyLevel.Hard => 100,
+            _ => 9
+        };
 
         for (int i = 0; i < 5; i++)
         {
             Console.Clear();
             Console.WriteLine(message);
-            int firstNumber = random.Next(1, 9);
-            int secondNumber = random.Next(1, 9);
+            int firstNumber = random.Next(1, maxNumber + 1);
+            int secondNumber = random.Next(1, maxNumber + 1);
 
             Console.WriteLine($"{firstNumber} + {secondNumber}");
             var result = Console.ReadLine();
