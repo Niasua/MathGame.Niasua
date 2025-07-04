@@ -43,11 +43,7 @@ internal class GameEngine
 
             if (i == numberQuestions - 1)
             {
-                var endTime = DateTime.Now;
-                var duration = endTime - startTime;
-                Console.WriteLine($"Game over. Your final score is {score}");
-                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
-                Console.ReadLine();
+                Helpers.ShowFinalResults(score, startTime);
             }
         }
 
@@ -93,11 +89,7 @@ internal class GameEngine
 
             if (i == 4)
             {
-                var endTime = DateTime.Now;
-                var duration = endTime - startTime;
-                Console.WriteLine($"Game over. Your final score is {score}");
-                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
-                Console.ReadLine();
+                Helpers.ShowFinalResults(score, startTime);
             }
         }
 
@@ -143,11 +135,7 @@ internal class GameEngine
 
             if (i == 4)
             {
-                var endTime = DateTime.Now;
-                var duration = endTime - startTime;
-                Console.WriteLine($"Game over. Your final score is {score}");
-                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
-                Console.ReadLine();
+                Helpers.ShowFinalResults(score, startTime);
             }
         }
 
@@ -194,11 +182,7 @@ internal class GameEngine
 
             if (i == 4)
             {
-                var endTime = DateTime.Now;
-                var duration = endTime - startTime;
-                Console.WriteLine($"Game over. Your final score is {score}");
-                Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
-                Console.ReadLine();
+                Helpers.ShowFinalResults(score, startTime);
             }
         }
 

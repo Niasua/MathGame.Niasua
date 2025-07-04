@@ -114,5 +114,14 @@ internal class Helpers
             3 => DifficultyLevel.Hard
         };
     }
+
+    internal static void ShowFinalResults(int score, DateTime startTime)
+    {
+        var endTime = DateTime.Now;
+        var duration = endTime - startTime;
+        Console.WriteLine($"Game over. Your final score is: {score}");
+        Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
+        Console.ReadLine();
+    }
 }
 
