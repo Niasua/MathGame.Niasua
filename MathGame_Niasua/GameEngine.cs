@@ -5,31 +5,88 @@ internal class GameEngine
 {
     internal void DivisionGame(string message, DifficultyLevel difficulty)
     {
-        var score = 0;
-        var startTime = DateTime.Now;
+        Random random = new Random();
+        PlayGame(message, difficulty, GameType.Division,
+            (a, b) => a / b, random
+        );
+    }
 
-        int numberQuestions = difficulty switch
+    internal void MultiplicationGame(string message, DifficultyLevel difficulty)
+    {
+        Random random = new Random();
+        PlayGame(message, difficulty, GameType.Multiplication,
+            (a, b) => a * b, random
+        );
+    }
+
+    internal void SubtractionGame(string message, DifficultyLevel difficulty)
+    {
+        Random random = new Random();
+        PlayGame(message, difficulty, GameType.Subtraction,
+            (a, b) => a - b, random
+        );
+    }
+
+    internal void AdditionGame(string message, DifficultyLevel difficulty)
+    {
+        Random random = new Random();
+        PlayGame(message, difficulty, GameType.Addition,
+            (a, b) => a + b, random
+        );
+    }
+
+    internal void PlayGame(
+    string message,
+    DifficultyLevel difficulty,
+    GameType gameType,
+    Func<int, int, int> operation,
+    Random random
+    )
+    {
+
+        int score = 0;
+        var startTime = DateTime.Now;
+        var numberQuestions = 5;
+        var operationType = Helpers.SelectOperation(gameType);
+        int[] operands;
+
+        int maxNumber = difficulty switch
         {
-            DifficultyLevel.Easy => 5,
-            DifficultyLevel.Medium => 10,
-            DifficultyLevel.Hard => 15
+            DifficultyLevel.Easy => 9,
+            DifficultyLevel.Medium => 50,
+            DifficultyLevel.Hard => 100,
+            _ => 9
         };
+
+
+        if (gameType == GameType.Division)
+        {
+            numberQuestions = difficulty switch
+            {
+                DifficultyLevel.Easy => 5,
+                DifficultyLevel.Medium => 10,
+                DifficultyLevel.Hard => 15,
+                _ => 5
+            };
+
+            operands = Helpers.GetDivisionNumbers();
+        }
 
         for (int i = 0; i < numberQuestions; i++)
         {
+            operands = Helpers.GetNumbers(maxNumber, random);
             Console.Clear();
             Console.WriteLine(message);
 
-            int[] nums = Helpers.GetDivisionNumbers();
-            int firstNumber = nums[0];
-            int secondNumber = nums[1];
+            int firstNumber = operands[0];
+            int secondNumber = operands[1];
 
-            Console.WriteLine($"{firstNumber} / {secondNumber}");
+            Console.WriteLine($"{firstNumber} {operationType} {secondNumber}");
             var result = Console.ReadLine();
 
             result = Helpers.ValidateResult(result);
 
-            if (int.Parse(result) == firstNumber / secondNumber)
+            if (int.Parse(result) == operation(firstNumber, secondNumber))
             {
                 Console.WriteLine("Your answer was correct! Type any key for the next question");
                 score++;
@@ -37,150 +94,11 @@ internal class GameEngine
             }
             else
             {
-                Console.WriteLine("Your answer was incorrect! Type any key for the next question");
+                Console.WriteLine("Your anser was incorrect! Type any key for the next question");
                 Console.ReadLine();
             }
 
             if (i == numberQuestions - 1)
-            {
-                Helpers.ShowFinalResults(score, startTime);
-            }
-        }
-
-        Helpers.AddToHistory(score, GameType.Division);
-    }
-    internal void MultiplicationGame(string message, DifficultyLevel difficulty)
-    {
-        Random random = new Random();
-        var score = 0;
-        var startTime = DateTime.Now;
-
-        int maxNumber = difficulty switch
-        {
-            DifficultyLevel.Easy => 9,
-            DifficultyLevel.Medium => 50,
-            DifficultyLevel.Hard => 100,
-            _ => 9
-        };
-
-        for (int i = 0; i < 5; i++)
-        {
-            Console.Clear();
-            Console.WriteLine(message);
-            int firstNumber = random.Next(1, maxNumber + 1);
-            int secondNumber = random.Next(1, maxNumber + 1);
-
-            Console.WriteLine($"{firstNumber} * {secondNumber}");
-            var result = Console.ReadLine();
-
-            result = Helpers.ValidateResult(result);
-
-            if (int.Parse(result) == firstNumber * secondNumber)
-            {
-                Console.WriteLine("Your answer was correct! Type any key for the next question");
-                score++;
-                Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Your answer was incorrect! Type any key for the next question");
-                Console.ReadLine();
-            }
-
-            if (i == 4)
-            {
-                Helpers.ShowFinalResults(score, startTime);
-            }
-        }
-
-        Helpers.AddToHistory(score, GameType.Multiplication);
-    }
-    internal void SubtractionGame(string message, DifficultyLevel difficulty)
-    {
-        Random random = new Random();
-        var score = 0;
-        var startTime = DateTime.Now;
-
-        int maxNumber = difficulty switch
-        {
-            DifficultyLevel.Easy => 9,
-            DifficultyLevel.Medium => 50,
-            DifficultyLevel.Hard => 100,
-            _ => 9
-        };
-
-        for (int i = 0; i < 5; i++)
-        {
-            Console.Clear();
-            Console.WriteLine(message);
-            int firstNumber = random.Next(1, maxNumber + 1);
-            int secondNumber = random.Next(1, maxNumber + 1);
-
-            Console.WriteLine($"{firstNumber} - {secondNumber}");
-            var result = Console.ReadLine();
-
-            result = Helpers.ValidateResult(result);
-
-            if (int.Parse(result) == firstNumber - secondNumber)
-            {
-                Console.WriteLine("Your answer was correct! Type any key for the next question");
-                score++;
-                Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Your answer was incorrect! Type any key for the next question");
-                Console.ReadLine();
-            }
-
-            if (i == 4)
-            {
-                Helpers.ShowFinalResults(score, startTime);
-            }
-        }
-
-        Helpers.AddToHistory(score, GameType.Subtraction);
-    }
-    internal void AdditionGame(string message, DifficultyLevel difficulty)
-    {
-        Random random = new Random();
-        var score = 0;
-        var startTime = DateTime.Now;
-
-        int maxNumber = difficulty switch
-        {
-            DifficultyLevel.Easy => 9,
-            DifficultyLevel.Medium => 50,
-            DifficultyLevel.Hard => 100,
-            _ => 9
-        };
-
-        for (int i = 0; i < 5; i++)
-        {
-            Console.Clear();
-            Console.WriteLine(message);
-            int firstNumber = random.Next(1, maxNumber + 1);
-            int secondNumber = random.Next(1, maxNumber + 1);
-
-            Console.WriteLine($"{firstNumber} + {secondNumber}");
-            var result = Console.ReadLine();
-
-            result = Helpers.ValidateResult(result);
-
-
-            if (int.Parse(result) == firstNumber + secondNumber)
-            {
-                Console.WriteLine("Your answer was correct! Type any key for the next question");
-                score++;
-                Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Your answer was incorrect! Type any key for the next question");
-                Console.ReadLine();
-            }
-
-            if (i == 4)
             {
                 Helpers.ShowFinalResults(score, startTime);
             }

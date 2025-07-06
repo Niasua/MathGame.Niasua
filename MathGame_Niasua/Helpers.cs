@@ -34,6 +34,7 @@ internal class Helpers
 
         return name;
     }
+
     internal static int[] GetDivisionNumbers()
     {
         Random Random = new Random();
@@ -55,6 +56,19 @@ internal class Helpers
 
         return result;
     }
+
+    internal static int[] GetNumbers(int maxNumber, Random random)
+    {
+        int firstNumber = random.Next(1, maxNumber + 1);
+        int secondNumber = random.Next(1, maxNumber + 1);
+
+        int[] result = new int[2];
+        result[0] = firstNumber;
+        result[1] = secondNumber;
+
+        return result;
+    }
+
     internal static void PrintGames()
     {
         var gamesToPrint = games.Where(x => x.Date > new DateTime(2022, 08, 09)).OrderByDescending(x => x.Score);
@@ -70,6 +84,7 @@ internal class Helpers
         Console.WriteLine("Press any key to go back to the menu");
         Console.ReadLine();
     }
+
     internal static void AddToHistory(int score, GameType game)
     {
         games.Add(new Game
@@ -122,6 +137,19 @@ internal class Helpers
         Console.WriteLine($"Game over. Your final score is: {score}");
         Console.WriteLine($"Time taken: {(int)duration.TotalSeconds} seconds");
         Console.ReadLine();
+    }
+
+    internal static char SelectOperation(GameType gameType)
+    {
+        char operation = gameType switch
+        {
+            GameType.Addition => '+',
+            GameType.Division => '/',
+            GameType.Subtraction => '-',
+            GameType.Multiplication => '*'
+        };
+
+        return operation;
     }
 }
 
