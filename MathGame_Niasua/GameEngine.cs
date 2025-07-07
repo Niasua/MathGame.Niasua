@@ -99,8 +99,6 @@ internal class GameEngine
     )
     {
         int score = 0;
-        var operationType = Helpers.SelectOperation(gameType);
-
         int maxNumber = difficulty switch
         {
             DifficultyLevel.Easy => 9,
