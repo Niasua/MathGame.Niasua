@@ -35,20 +35,19 @@ internal class Helpers
         return name;
     }
 
-    internal static int[] GetDivisionNumbers()
+    internal static int[] GetDivisionNumbers(int maxNumber, Random random)
     {
-        Random Random = new Random();
-        int firstNumber = Random.Next(0, 99);
-        int secondNumber = Random.Next(0, 99);
+        int firstNumber = random.Next(0, maxNumber);
+        int secondNumber = random.Next(0, maxNumber);
 
         int[] result = new int[2];
 
         // the division must result in an integer
         // the second number must be != 0 and greater than the first number
-        while (firstNumber % secondNumber != 0 && secondNumber == 0 && secondNumber > firstNumber)
+        while (secondNumber == 0 || firstNumber % secondNumber != 0)
         {
-            firstNumber = Random.Next(0, 99);
-            secondNumber = Random.Next(0, 99);
+            firstNumber = random.Next(0, 99);
+            secondNumber = random.Next(0, 99);
         }
 
         result[0] = firstNumber;
@@ -105,7 +104,7 @@ internal class Helpers
         return result;
     }
 
-    internal static DifficultyLevel selectDifficulty()
+    internal static DifficultyLevel SelectDifficulty()
     {
         Console.Clear();
         Console.WriteLine("Select difficulty:");
@@ -150,6 +149,37 @@ internal class Helpers
         };
 
         return operation;
+    }
+
+    internal static int GameLogic(int numberQuestions, int maxNumber, int[] operands, int score, DateTime startTime, Random random, char operationType, Func<int, int, int> operation)
+    {
+        for (int i = 0; i < numberQuestions; i++)
+        {
+            operands = Helpers.GetNumbers(maxNumber, random);
+            Console.Clear();
+
+            int firstNumber = operands[0];
+            int secondNumber = operands[1];
+
+            Console.WriteLine($"{firstNumber} {operationType} {secondNumber}");
+            var result = Console.ReadLine();
+
+            result = Helpers.ValidateResult(result);
+
+            if (int.Parse(result) == operation(firstNumber, secondNumber))
+            {
+                Console.WriteLine("Your answer was correct! Type any key for the next question");
+                score++;
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Your anser was incorrect! Type any key for the next question");
+                Console.ReadLine();
+            }
+        }
+
+        return score;
     }
 }
 

@@ -23,6 +23,7 @@ internal class Menu
             S - Substraction
             M - Multiplication
             D - Division
+            R - Random Game
             Q - Quit the program");
 
             Console.WriteLine("------------------------------------------------------");
@@ -35,26 +36,28 @@ internal class Menu
                     Helpers.PrintGames();
                     break;
                 case "a":
-                    gameEngine.AdditionGame("Addition game selected", Helpers.selectDifficulty());
+                    gameEngine.AdditionGame("Addition game selected", Helpers.SelectDifficulty());
                     break;
                 case "s":
-                    gameEngine.SubtractionGame("Subtraction game selected", Helpers.selectDifficulty());
+                    gameEngine.SubtractionGame("Subtraction game selected", Helpers.SelectDifficulty());
                     break;
                 case "m":
-                    gameEngine.MultiplicationGame("Multiplication game selected", Helpers.selectDifficulty());
+                    gameEngine.MultiplicationGame("Multiplication game selected", Helpers.SelectDifficulty());
                     break;
                 case "d":
-                    gameEngine.DivisionGame("Division game selected", Helpers.selectDifficulty());
+                    gameEngine.DivisionGame("Division game selected", Helpers.SelectDifficulty());
                     break;
                 case "q":
                     Console.WriteLine("Goodbye");
                     isGameOn = false;
                     break;
+                case "r":
+                    gameEngine.RandomGame("Random game selected", Helpers.SelectDifficulty());
+                    break;
                 default:
                     Console.WriteLine("Invalid input");
                     break;
             }
-
         } while (isGameOn);
     }
 

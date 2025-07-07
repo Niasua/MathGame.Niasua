@@ -1,54 +1,105 @@
 ﻿using MathGame_Niasua.Models;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MathGame_Niasua;
 internal class GameEngine
 {
     internal void DivisionGame(string message, DifficultyLevel difficulty)
     {
+        int score = 0;
+        DateTime startTime = DateTime.Now;
         Random random = new Random();
-        PlayGame(message, difficulty, GameType.Division,
-            (a, b) => a / b, random
+        Console.WriteLine(message);
+        score += PlayGame(difficulty, GameType.Division, Helpers.GetDivisionNumbers, random, 5
         );
+        Helpers.AddToHistory(score, GameType.Division);
+        Helpers.ShowFinalResults(score, startTime);
     }
 
     internal void MultiplicationGame(string message, DifficultyLevel difficulty)
     {
+        int score = 0;
+        DateTime startTime = DateTime.Now;
         Random random = new Random();
-        PlayGame(message, difficulty, GameType.Multiplication,
-            (a, b) => a * b, random
+        Console.WriteLine(message);
+        score += PlayGame(difficulty, GameType.Multiplication, Helpers.GetNumbers, random, 5
         );
+        Helpers.AddToHistory(score, GameType.Multiplication);
+        Helpers.ShowFinalResults(score, startTime);
     }
 
     internal void SubtractionGame(string message, DifficultyLevel difficulty)
     {
+        int score = 0;
+        DateTime startTime = DateTime.Now;
         Random random = new Random();
-        PlayGame(message, difficulty, GameType.Subtraction,
-            (a, b) => a - b, random
+        Console.WriteLine(message);
+        score += PlayGame(difficulty, GameType.Subtraction, Helpers.GetNumbers, random, 5
         );
+        Helpers.AddToHistory(score, GameType.Subtraction);
+        Helpers.ShowFinalResults(score, startTime);
     }
 
     internal void AdditionGame(string message, DifficultyLevel difficulty)
     {
+        int score = 0;
+        DateTime startTime = DateTime.Now;
         Random random = new Random();
-        PlayGame(message, difficulty, GameType.Addition,
-            (a, b) => a + b, random
+        Console.WriteLine(message);
+        score += PlayGame(difficulty, GameType.Addition, Helpers.GetNumbers, random, 5
         );
+        Helpers.AddToHistory(score, GameType.Addition);
+        Helpers.ShowFinalResults(score, startTime);
     }
 
-    internal void PlayGame(
-    string message,
+    internal void RandomGame(string message, DifficultyLevel difficulty)
+    {
+        int score = 0;
+        DateTime startTime = DateTime.Now;
+        Random random = new Random();
+        for (int i = 0; i < 5; i++)
+        {
+            var gameTypeNumber = random.Next(0, 4);
+
+            switch (gameTypeNumber)
+            {
+                case 0:
+                    Console.WriteLine(message);
+                    score += PlayGame(difficulty, GameType.Addition, Helpers.GetNumbers, random, 1
+                    );
+                    break;
+                case 1:
+                    Console.WriteLine(message);
+                    score += PlayGame(difficulty, GameType.Subtraction, Helpers.GetNumbers, random, 1
+                    );
+                    break;
+                case 2:
+                    Console.WriteLine(message);
+                    score += PlayGame(difficulty, GameType.Multiplication, Helpers.GetNumbers, random, 1
+                    );
+                    break;
+                case 3:
+                    Console.WriteLine(message);
+                    score += PlayGame(difficulty, GameType.Division, Helpers.GetDivisionNumbers, random, 1
+                    );
+                    break;
+            }
+        }
+
+        Helpers.AddToHistory(score, GameType.Random);
+        Helpers.ShowFinalResults(score, startTime);
+    }
+
+    internal int PlayGame(
     DifficultyLevel difficulty,
     GameType gameType,
-    Func<int, int, int> operation,
-    Random random
+    Func<int, Random ,int[]> GetOperands,
+    Random random,
+    int numberQuestions
     )
     {
-
         int score = 0;
-        var startTime = DateTime.Now;
-        var numberQuestions = 5;
         var operationType = Helpers.SelectOperation(gameType);
-        int[] operands;
 
         int maxNumber = difficulty switch
         {
@@ -58,52 +109,24 @@ internal class GameEngine
             _ => 9
         };
 
+        int[] operands = GetOperands(maxNumber, random);
 
-        if (gameType == GameType.Division)
+        switch(gameType)
         {
-            numberQuestions = difficulty switch
-            {
-                DifficultyLevel.Easy => 5,
-                DifficultyLevel.Medium => 10,
-                DifficultyLevel.Hard => 15,
-                _ => 5
-            };
-
-            operands = Helpers.GetDivisionNumbers();
+            case GameType.Addition:
+                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a + b);
+                break;
+            case GameType.Subtraction:
+                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a - b);
+                break;
+            case GameType.Multiplication:
+                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a * b);
+                break;
+            case GameType.Division:
+                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a / b);
+                break;
         }
 
-        for (int i = 0; i < numberQuestions; i++)
-        {
-            operands = Helpers.GetNumbers(maxNumber, random);
-            Console.Clear();
-            Console.WriteLine(message);
-
-            int firstNumber = operands[0];
-            int secondNumber = operands[1];
-
-            Console.WriteLine($"{firstNumber} {operationType} {secondNumber}");
-            var result = Console.ReadLine();
-
-            result = Helpers.ValidateResult(result);
-
-            if (int.Parse(result) == operation(firstNumber, secondNumber))
-            {
-                Console.WriteLine("Your answer was correct! Type any key for the next question");
-                score++;
-                Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Your anser was incorrect! Type any key for the next question");
-                Console.ReadLine();
-            }
-
-            if (i == numberQuestions - 1)
-            {
-                Helpers.ShowFinalResults(score, startTime);
-            }
-        }
-
-        Helpers.AddToHistory(score, GameType.Addition);
+        return score;
     }
 }
