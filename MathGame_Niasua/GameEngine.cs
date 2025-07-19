@@ -58,6 +58,7 @@ internal class GameEngine
             _ => 9
         };
 
+
         switch(gameType)
         {
             case GameType.Addition:
