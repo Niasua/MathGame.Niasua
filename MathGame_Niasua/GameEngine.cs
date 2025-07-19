@@ -58,8 +58,6 @@ internal class GameEngine
             _ => 9
         };
 
-        int[] operands = GetOperands(maxNumber, random);
-
         switch(gameType)
         {
             case GameType.Addition:
