@@ -40,20 +40,20 @@ internal class Helpers
         int firstNumber = random.Next(0, maxNumber);
         int secondNumber = random.Next(0, maxNumber);
 
-        int[] result = new int[2];
-
-        // the division must result in an integer
-        // the second number must be != 0 and greater than the first number
-        while (secondNumber == 0 || firstNumber % secondNumber != 0)
+        while (true)
         {
-            firstNumber = random.Next(0, 99);
-            secondNumber = random.Next(0, 99);
+            secondNumber = random.Next(2, maxNumber + 1); //avoid 0 and 1
+            int maxMultiplier = maxNumber / secondNumber;
+
+            if (maxMultiplier < 2)
+                continue;
+
+            int multiplier = random.Next(2, maxMultiplier + 1); // avoid = 1
+            firstNumber = secondNumber * multiplier;
+
+            if (firstNumber % secondNumber == 0)
+                return new int[] { firstNumber, secondNumber };
         }
-
-        result[0] = firstNumber;
-        result[1] = secondNumber;
-
-        return result;
     }
 
     internal static int[] GetNumbers(int maxNumber, Random random)
@@ -151,12 +151,13 @@ internal class Helpers
         return operation;
     }
 
-    internal static int GameLogic(int numberQuestions, int maxNumber, int[] operands, int score, DateTime startTime, Random random, char operationType, Func<int, int, int> operation)
+    internal static int GameLogic(int numberQuestions, int maxNumber, Func<int, Random, int[]> GetOperands, int score, DateTime startTime, Random random, char operationType, Func<int, int, int> operation)
     {
         for (int i = 0; i < numberQuestions; i++)
         {
-            operands = Helpers.GetNumbers(maxNumber, random);
             Console.Clear();
+
+            var operands = GetOperands(maxNumber, random);
 
             int firstNumber = operands[0];
             int secondNumber = operands[1];

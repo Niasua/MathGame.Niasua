@@ -3,11 +3,10 @@
 namespace MathGame_Niasua;
 internal class GameEngine
 {
-    internal void RandomGame(string message, DifficultyLevel difficulty)
+    internal void RandomGame(string message, DifficultyLevel difficulty, Random random)
     {
         int score = 0;
         DateTime startTime = DateTime.Now;
-        Random random = new Random();
         for (int i = 0; i < 5; i++)
         {
             var gameTypeNumber = random.Next(0, 4);
@@ -64,16 +63,16 @@ internal class GameEngine
         switch(gameType)
         {
             case GameType.Addition:
-                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a + b);
+                score += Helpers.GameLogic(numberQuestions, maxNumber, Helpers.GetNumbers, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a + b);
                 break;
             case GameType.Subtraction:
-                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a - b);
+                score += Helpers.GameLogic(numberQuestions, maxNumber, Helpers.GetNumbers, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a - b);
                 break;
             case GameType.Multiplication:
-                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a * b);
+                score += Helpers.GameLogic(numberQuestions, maxNumber, Helpers.GetNumbers, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a * b);
                 break;
             case GameType.Division:
-                score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a / b);
+                score += Helpers.GameLogic(numberQuestions, maxNumber, Helpers.GetDivisionNumbers, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a / b);
                 break;
         }
 

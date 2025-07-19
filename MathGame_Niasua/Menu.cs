@@ -54,7 +54,7 @@ internal class Menu
                     isGameOn = false;
                     break;
                 case "r":
-                    gameEngine.RandomGame("Random game selected", Helpers.SelectDifficulty());
+                    gameEngine.RandomGame("Random game selected", Helpers.SelectDifficulty(), random);
                     break;
                 default:
                     Console.WriteLine("Invalid input");
@@ -62,5 +62,6 @@ internal class Menu
             }
         } while (isGameOn);
     }
+
 }
 
