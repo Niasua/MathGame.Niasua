@@ -1,57 +1,8 @@
 ﻿using MathGame_Niasua.Models;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace MathGame_Niasua;
 internal class GameEngine
 {
-    internal void DivisionGame(string message, DifficultyLevel difficulty)
-    {
-        int score = 0;
-        DateTime startTime = DateTime.Now;
-        Random random = new Random();
-        Console.WriteLine(message);
-        score += PlayGame(difficulty, GameType.Division, Helpers.GetDivisionNumbers, random, 5
-        );
-        Helpers.AddToHistory(score, GameType.Division);
-        Helpers.ShowFinalResults(score, startTime);
-    }
-
-    internal void MultiplicationGame(string message, DifficultyLevel difficulty)
-    {
-        int score = 0;
-        DateTime startTime = DateTime.Now;
-        Random random = new Random();
-        Console.WriteLine(message);
-        score += PlayGame(difficulty, GameType.Multiplication, Helpers.GetNumbers, random, 5
-        );
-        Helpers.AddToHistory(score, GameType.Multiplication);
-        Helpers.ShowFinalResults(score, startTime);
-    }
-
-    internal void SubtractionGame(string message, DifficultyLevel difficulty)
-    {
-        int score = 0;
-        DateTime startTime = DateTime.Now;
-        Random random = new Random();
-        Console.WriteLine(message);
-        score += PlayGame(difficulty, GameType.Subtraction, Helpers.GetNumbers, random, 5
-        );
-        Helpers.AddToHistory(score, GameType.Subtraction);
-        Helpers.ShowFinalResults(score, startTime);
-    }
-
-    internal void AdditionGame(string message, DifficultyLevel difficulty)
-    {
-        int score = 0;
-        DateTime startTime = DateTime.Now;
-        Random random = new Random();
-        Console.WriteLine(message);
-        score += PlayGame(difficulty, GameType.Addition, Helpers.GetNumbers, random, 5
-        );
-        Helpers.AddToHistory(score, GameType.Addition);
-        Helpers.ShowFinalResults(score, startTime);
-    }
-
     internal void RandomGame(string message, DifficultyLevel difficulty)
     {
         int score = 0;
@@ -64,23 +15,19 @@ internal class GameEngine
             switch (gameTypeNumber)
             {
                 case 0:
-                    Console.WriteLine(message);
-                    score += PlayGame(difficulty, GameType.Addition, Helpers.GetNumbers, random, 1
+                    score += PlayGame(message, difficulty, GameType.Addition, Helpers.GetNumbers, random, 1, true
                     );
                     break;
                 case 1:
-                    Console.WriteLine(message);
-                    score += PlayGame(difficulty, GameType.Subtraction, Helpers.GetNumbers, random, 1
+                    score += PlayGame(message, difficulty, GameType.Subtraction, Helpers.GetNumbers, random, 1, true 
                     );
                     break;
                 case 2:
-                    Console.WriteLine(message);
-                    score += PlayGame(difficulty, GameType.Multiplication, Helpers.GetNumbers, random, 1
+                    score += PlayGame(message, difficulty, GameType.Multiplication, Helpers.GetNumbers, random, 1, true
                     );
                     break;
                 case 3:
-                    Console.WriteLine(message);
-                    score += PlayGame(difficulty, GameType.Division, Helpers.GetDivisionNumbers, random, 1
+                    score += PlayGame(message, difficulty, GameType.Division, Helpers.GetDivisionNumbers, random, 1, true
                     );
                     break;
             }
@@ -91,14 +38,19 @@ internal class GameEngine
     }
 
     internal int PlayGame(
+    string message,
     DifficultyLevel difficulty,
     GameType gameType,
     Func<int, Random ,int[]> GetOperands,
     Random random,
-    int numberQuestions
+    int numberQuestions, bool isRandom
     )
     {
         int score = 0;
+        DateTime startTime = DateTime.Now;
+
+        Console.WriteLine(message);
+
         int maxNumber = difficulty switch
         {
             DifficultyLevel.Easy => 9,
@@ -123,6 +75,12 @@ internal class GameEngine
             case GameType.Division:
                 score += Helpers.GameLogic(numberQuestions, maxNumber, operands, score, DateTime.Now, random, Helpers.SelectOperation(gameType), (a, b) => a / b);
                 break;
+        }
+
+        if (!isRandom)
+        {
+            Helpers.AddToHistory(score, gameType);
+            Helpers.ShowFinalResults(score, startTime);
         }
 
         return score;

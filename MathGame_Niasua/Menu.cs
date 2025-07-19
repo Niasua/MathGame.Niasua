@@ -13,6 +13,8 @@ internal class Menu
 
         bool isGameOn = true;
 
+        Random random = new Random();
+
         do
         {
             Console.Clear();
@@ -36,16 +38,16 @@ internal class Menu
                     Helpers.PrintGames();
                     break;
                 case "a":
-                    gameEngine.AdditionGame("Addition game selected", Helpers.SelectDifficulty());
+                    gameEngine.PlayGame("Addition game selected", Helpers.SelectDifficulty(), Models.GameType.Addition, Helpers.GetNumbers, random, 5, false);
                     break;
                 case "s":
-                    gameEngine.SubtractionGame("Subtraction game selected", Helpers.SelectDifficulty());
+                    gameEngine.PlayGame("Subtraction game selected", Helpers.SelectDifficulty(), Models.GameType.Subtraction, Helpers.GetNumbers, random, 5, false);
                     break;
                 case "m":
-                    gameEngine.MultiplicationGame("Multiplication game selected", Helpers.SelectDifficulty());
+                    gameEngine.PlayGame("Multiplication game selected", Helpers.SelectDifficulty(), Models.GameType.Multiplication, Helpers.GetNumbers, random, 5, false);
                     break;
                 case "d":
-                    gameEngine.DivisionGame("Division game selected", Helpers.SelectDifficulty());
+                    gameEngine.PlayGame("Division game selected", Helpers.SelectDifficulty(), Models.GameType.Division, Helpers.GetDivisionNumbers, random, 5, false);
                     break;
                 case "q":
                     Console.WriteLine("Goodbye");
@@ -60,6 +62,5 @@ internal class Menu
             }
         } while (isGameOn);
     }
-
 }
 
